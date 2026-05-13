@@ -2,9 +2,15 @@
 
 require_once 'vendor/autoload.php';
 
+use Flex\Core\Database;
 use Flex\Core\Events\EventManager;
 use Flex\Core\Plugins\PluginManager;
 use Flex\Core\Routing\Router;
+
+function db() {
+    return Database::getInstance();
+}
+db();
 
 $events = EventManager::getInstance();
 

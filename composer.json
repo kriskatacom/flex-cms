@@ -4,5 +4,8 @@
       "Flex\\Core\\": "app/Core/",
       "Plugins\\": "plugins/"
     }
+  },
+  "require": {
+    "vlucas/phpdotenv": "^5.6"
   }
 }
