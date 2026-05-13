@@ -13,11 +13,11 @@ class Database
     {
         if (self::$instance === null) {
             $config = [
-                'host' => 'localhost',
-                'db' => 'flex_cms',
-                'user' => 'root',
-                'pass' => 'root',
-                'char' => 'utf8mb4'
+                'host' => $_ENV['DB_HOST'] ?? 'localhost',
+                'db' => $_ENV['DB_NAME'] ?? 'flex_cms',
+                'user' => $_ENV['DB_USER'] ?? 'root',
+                'pass' => $_ENV['DB_PASS'] ?? '',
+                'char' => $_ENV['DB_CHAR'] ?? 'utf8mb4'
             ];
 
             $dsn = "mysql:host={$config['host']};dbname={$config['db']};charset={$config['char']}";

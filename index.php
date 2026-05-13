@@ -1,11 +1,16 @@
 <?php
 
+
 require_once 'vendor/autoload.php';
 
+use Dotenv\Dotenv;
 use Flex\Core\Database;
 use Flex\Core\Events\EventManager;
 use Flex\Core\Plugins\PluginManager;
 use Flex\Core\Routing\Router;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 function db() {
     return Database::getInstance();
