@@ -19,7 +19,14 @@ abstract class BaseController
     {
         extract($view->data);
 
-        $fullViewPath = $view->path . '.php';
+        $reflection = new \ReflectionClass($this);
+        $controllerDir = dirname($reflection->getFileName(), 2);
+
+        $fullViewPath = dirname($controllerDir) . '/views/' . $view->path . '.php';
+
+        if (strpos($controllerDir, 'app' . DIRECTORY_SEPARATOR . 'Controllers') !== false) {
+            $fullViewPath = dirname($controllerDir, 2) . '/views/' . $view->path . '.php';
+        }
 
         ob_start();
         if (file_exists($fullViewPath)) {

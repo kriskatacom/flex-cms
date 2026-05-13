@@ -3,6 +3,7 @@
 namespace Flex\Core\Plugins;
 
 use Flex\Core\Events\EventManager;
+use Flex\Core\Routing\Router;
 
 class PluginManager
 {
@@ -17,7 +18,7 @@ class PluginManager
         $this->pluginsPath = dirname(__DIR__, 3) . '/plugins';
     }
 
-    public function loadPlugins(): void
+    public function loadPlugins(Router $router): void
     {
         $loader = require dirname(__DIR__, 3) . '/vendor/autoload.php';
 
@@ -32,6 +33,7 @@ class PluginManager
                 $loader->addPsr4($fullNamespace, $pluginPath . '/src');
 
                 $eventManager = $this->events;
+
                 include_once $pluginFile;
             }
         }

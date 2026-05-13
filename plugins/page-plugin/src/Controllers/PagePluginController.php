@@ -7,13 +7,6 @@ use Flex\Core\Routing\View;
 
 class PagePluginController extends BaseController
 {
-    protected $viewsPath;
-
-    public function __construct()
-    {
-        $this->viewsPath = dirname(__DIR__, 2) . '/views/';
-    }
-
     public function home()
     {
         $data = [
@@ -27,7 +20,7 @@ class PagePluginController extends BaseController
             ]
         ];
 
-        $this->render(View::make($this->viewsPath . 'home', $data));
+        $this->render(View::make('home', $data));
     }
 
     public function about()
@@ -44,6 +37,6 @@ class PagePluginController extends BaseController
             'history' => 'Flex CMS е роден от желанието на Кристиан да предложи на разработчиците инструмент, който не ги ограничава, а им дава солидна основа за надграждане. Проектът съчетава опита му в изграждането на мащабируеми приложения с философията за "чист код".'
         ];
 
-        $this->render(View::make($this->viewsPath . 'about', $data));
+        $this->render(View::make('about', $data));
     }
 }

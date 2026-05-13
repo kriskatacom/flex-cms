@@ -15,4 +15,10 @@ class View
     {
         return new self($path, $data, $layout);
     }
+
+    public static function redirect(string $url, int $code = 302): void
+    {
+        header("Location: " . $url, true, $code);
+        exit;
+    }
 }

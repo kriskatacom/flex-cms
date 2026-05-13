@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 
 require_once 'vendor/autoload.php';
 
@@ -35,14 +36,16 @@ function db() {
 db();
 
 $events = EventManager::getInstance();
+$router = new Router($events);
 
 $activePlugins = ['page-plugin'];
 
 $pluginManager = new PluginManager($events, $activePlugins);
-$pluginManager->loadPlugins();
+$pluginManager->loadPlugins($router);
 
 $content = "Здравей, това е съдържанието на сайта.";
 $content = $events->applyFilters('the_content', $content);
 
-$router = new Router($events);
+require_once __DIR__ . '/app/routes.php';
+
 $router->resolve();
