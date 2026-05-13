@@ -1,0 +1,8 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Flex\\Core\\": "app/Core/",
+      "Plugins\\": "plugins/"
+    }
+  }
+}
