@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "watch": "npx @tailwindcss/cli -i ./assets/css/app.css -o ./public/css/style.css --watch",
-    "build": "npx @tailwindcss/cli -i ./assets/css/app.css -o ./public/css/style.css --minify"
+    "build": "npx @tailwindcss/cli -i ./assets/css/app.css -o ./public/css/style.css --minify",
+    "dev": "npm run migrate:status && npm run watch",
+    "migrate": "php vendor/bin/phinx migrate",
+    "rollback": "php vendor/bin/phinx rollback",
+    "migrate:create": "php vendor/bin/phinx create",
+    "migrate:status": "php vendor/bin/phinx status"
   },
   "keywords": [],
   "author": "",
