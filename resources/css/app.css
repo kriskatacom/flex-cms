@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-brand: #4f46e5;
+}
+
+@layer base {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+        @apply bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5;
+    }
+
+    button {
+        @apply cursor-pointer transition-all duration-200;
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}

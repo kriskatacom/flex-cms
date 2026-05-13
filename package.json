@@ -1,23 +1,22 @@
 {
-  "name": "flex-cms",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "watch": "npx @tailwindcss/cli -i ./assets/css/app.css -o ./public/css/style.css --watch",
-    "build": "npx @tailwindcss/cli -i ./assets/css/app.css -o ./public/css/style.css --minify",
-    "dev": "npm run migrate:status && npm run watch",
-    "migrate": "php vendor/bin/phinx migrate",
-    "rollback": "php vendor/bin/phinx rollback",
-    "migrate:create": "php vendor/bin/phinx create",
-    "migrate:status": "php vendor/bin/phinx status"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "@tailwindcss/cli": "^4.3.0",
-    "tailwindcss": "^4.3.0"
-  }
+    "name": "flex-cms",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "npm run migrate:status && vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "migrate": "php vendor/bin/phinx migrate",
+        "rollback": "php vendor/bin/phinx rollback",
+        "migrate:create": "php vendor/bin/phinx create",
+        "migrate:status": "php vendor/bin/phinx status"
+    },
+    "dependencies": {
+        "alpinejs": "^3.14.0",
+        "tailwindcss": "^4.0.0"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.3.0",
+        "vite": "^6.0.0"
+    }
 }

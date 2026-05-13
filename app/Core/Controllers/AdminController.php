@@ -11,7 +11,7 @@ class AdminController extends BaseController
     public function __construct()
     {
         if (!Auth::check() || !Auth::isAdmin()) {
-            View::redirect('/auth/login');
+            View::redirect('/admin');
         }
     }
 

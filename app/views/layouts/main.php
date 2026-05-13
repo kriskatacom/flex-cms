@@ -1,3 +1,8 @@
+<?php
+
+use Flex\Core\Vite;
+?>
+
 <!DOCTYPE html>
 <html lang="bg">
 
@@ -6,7 +11,8 @@
     <title>
         <?php echo $title ?? 'Flex CMS'; ?>
     </title>
-    <link rel="stylesheet" href="/public/css/style.css">
+
+    <?= Vite::use('main') ?>
 </head>
 
 <body
