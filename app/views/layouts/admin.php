@@ -1,20 +1,19 @@
 <?php
 
+use Flex\Core\Auth;
 use Flex\Core\Vite;
 use Flex\Core\Routing\View;
 
+$currentUser = Auth::user();
 $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
 $darkMode = $_SESSION['dark_mode'] ?? false;
 ?>
 
 <!DOCTYPE html>
-<html lang="bg"
-    x-data="{ 
+<html lang="bg" x-data="{ 
         ...sidebar('admin-sidebar', <?= $sidebarOpen ? 'true' : 'false' ?>, <?= $darkMode ? 'true' : 'false' ?>),
         mounted: false 
-    }"
-    x-init="setTimeout(() => mounted = true, 100)"
-    :class="{ 'dark': darkMode }">
+    }" x-init="setTimeout(() => mounted = true, 100)" :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
@@ -51,26 +50,51 @@ $darkMode = $_SESSION['dark_mode'] ?? false;
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <button @click="toggleTheme()"
-                        class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
+                    <!-- Твоят нов динамичен бутон (ако съществува за текущата страница) -->
+                    <?php if (isset($primaryButton)): ?>
+                        <a href="<?= $primaryButton['url'] ?>"
+                            class="hidden md:inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-all mr-4">
+                            <?php if (isset($primaryButton['icon'])): ?>
+                                <i class="fa-solid <?= $primaryButton['icon'] ?> mr-2"></i>
+                            <?php endif; ?>
+                            <?= $primaryButton['label'] ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <button @click="toggleTheme()" ...>
                         <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                     </button>
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
 
                     <div class="flex items-center gap-3 pl-2">
-                        <div class="text-right hidden sm:block">
-                            <p class="text-sm font-medium leading-none">Администратор</p>
-                            <p class="text-xs text-slate-500 mt-1">admin@flex-cms.com</p>
-                        </div>
-                        <div
-                            class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
-                            A</div>
+                        <?php if ($currentUser): ?>
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-medium leading-none text-slate-900 dark:text-white">
+                                    <?= htmlspecialchars($currentUser->username) ?>
+                                </p>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    <?= htmlspecialchars($currentUser->email) ?>
+                                </p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shadow-sm">
+                                <?= strtoupper(substr($currentUser->username, 0, 1)) ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-medium leading-none text-slate-900 dark:text-white">Гост</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold">
+                                G
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+            <main class="flex-1 overflow-y-auto p-2 md:p-4 lg:p-5">
                 <div class="animate-fade-in">
                     <?= $content; ?>
                 </div>

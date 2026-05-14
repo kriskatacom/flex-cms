@@ -4,6 +4,7 @@ global $router;
 
 use Flex\Core\Controllers\AuthController;
 use Flex\Core\Controllers\AdminController;
+use Flex\Core\Controllers\UserController;
 
 $router->get('/admin', [AuthController::class, 'showLogin']);
 $router->post('/admin', [AuthController::class, 'login']);
@@ -13,3 +14,6 @@ $router->get('/admin/dashboard', [AdminController::class, 'index']);
 
 $router->post('/admin/sidebar-toggle', [AdminController::class, 'toggleSidebar']);
 $router->post('/admin/theme-toggle', [AdminController::class, 'toggleTheme']);
+
+// USERS
+$router->get('/admin/users', [UserController::class, 'index']);
