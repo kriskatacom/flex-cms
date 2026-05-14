@@ -4,10 +4,17 @@ use Flex\Core\Vite;
 use Flex\Core\Routing\View;
 
 $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
+$darkMode = $_SESSION['dark_mode'] ?? false;
 ?>
 
 <!DOCTYPE html>
-<html lang="bg" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<html lang="bg"
+    x-data="{ 
+        ...sidebar('admin-sidebar', <?= $sidebarOpen ? 'true' : 'false' ?>, <?= $darkMode ? 'true' : 'false' ?>),
+        mounted: false 
+    }"
+    x-init="setTimeout(() => mounted = true, 100)"
+    :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
@@ -15,7 +22,6 @@ $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
     <title>
         <?= $title ?? 'Администрация | Flex CMS'; ?>
     </title>
-
     <?= Vite::use('admin') ?>
 </head>
 
@@ -25,13 +31,17 @@ $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
 
         <?php View::component('sidebar', ['is_open' => $sidebarOpen]); ?>
 
-        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-900">
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-900" x-data="{ mounted: false }"
+            x-init="setTimeout(() => mounted = true, 100)" :class="{ 
+                'lg:pl-72': isOpen, 
+                'lg:pl-0': !isOpen,
+                'transition-all duration-300': mounted 
+            }">
 
             <header
                 class="h-16 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 sticky top-0 z-30">
                 <div class="flex items-center gap-4">
-                    <button @click="$dispatch('toggle-sidebar')"
-                        class="lg:hidden p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <button @click="toggle()" class="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
 
@@ -41,8 +51,8 @@ $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <button @click="darkMode = !darkMode"
-                        class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500">
+                    <button @click="toggleTheme()"
+                        class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
                         <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                     </button>
 
@@ -55,8 +65,7 @@ $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
                         </div>
                         <div
                             class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
-                            A
-                        </div>
+                            A</div>
                     </div>
                 </div>
             </header>
@@ -79,7 +88,6 @@ $sidebarOpen = $_SESSION['sidebar_open'] ?? true;
             </footer>
         </div>
     </div>
-
 </body>
 
 </html>

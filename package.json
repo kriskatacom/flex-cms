@@ -9,11 +9,13 @@
         "migrate": "php vendor/bin/phinx migrate",
         "rollback": "php vendor/bin/phinx rollback",
         "migrate:create": "php vendor/bin/phinx create",
-        "migrate:status": "php vendor/bin/phinx status"
+        "migrate:status": "php vendor/bin/phinx status",
+        "seed": "php vendor/bin/phinx seed:run -s UserSeeder"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.2.0",
         "alpinejs": "^3.14.0",
+        "axios": "^1.16.1",
         "tailwindcss": "^4.0.0"
     },
     "devDependencies": {

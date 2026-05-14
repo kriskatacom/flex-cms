@@ -5,6 +5,7 @@ namespace Flex\Core\Controllers;
 use Flex\Core\Auth;
 use Flex\Core\Controllers\BaseController;
 use Flex\Core\Routing\View;
+use Flex\Models\User;
 
 class AdminController extends BaseController
 {
@@ -18,5 +19,43 @@ class AdminController extends BaseController
     public function index()
     {
         $this->render(View::make('admin/dashboard', [], 'admin'));
+    }
+
+    public function toggleTheme()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $isDark = (bool) ($data['darkMode'] ?? false);
+
+        $_SESSION['dark_mode'] = $isDark;
+        $this->updateUserOptions('theme', $isDark ? 'dark' : 'light');
+
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function toggleSidebar()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $isOpen = (bool) ($data['sidebarOpen'] ?? true);
+
+        $_SESSION['sidebar_open'] = $isOpen;
+        $this->updateUserOptions('sidebar_open', $isOpen);
+
+        echo json_encode(['status' => 'success']);
+    }
+
+    private function updateUserOptions(string $key, mixed $value): void
+    {
+        if (isset($_SESSION['user_id'])) {
+            $user = User::find($_SESSION['user_id']);
+
+            if ($user) {
+                if ($user->options === null) {
+                    $user->options = [];
+                }
+                
+                $user->options[$key] = $value;
+                $user->save();
+            }
+        }
     }
 }

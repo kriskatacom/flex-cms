@@ -3,6 +3,7 @@
 namespace Flex\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class User extends Model
 {
@@ -13,7 +14,13 @@ class User extends Model
         'email',
         'password',
         'role',
+        'options',
         'last_login'
+    ];
+
+    protected $casts = [
+        'options' => AsArrayObject::class,
+        'last_login' => 'datetime',
     ];
 
     protected $hidden = [
