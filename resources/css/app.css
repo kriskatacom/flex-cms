@@ -3,7 +3,7 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-brand: #4f46e5;
+    --color-primary: oklch(62.3% 0.214 259.815);
 }
 
 @layer base {

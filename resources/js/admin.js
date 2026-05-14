@@ -1,10 +1,12 @@
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import "../css/app.css";
 import Alpine from "alpinejs";
 
-import navbar from "./components/navbar.js";
+import sidebar from "./admin/components/sidebar.js";
 
 window.Alpine = Alpine;
 
-Alpine.data("navbar", navbar);
+Alpine.data("sidebar", sidebar);
 
 Alpine.start();

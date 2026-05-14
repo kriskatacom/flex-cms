@@ -17,6 +17,6 @@ class AdminController extends BaseController
 
     public function index()
     {
-        $this->render(View::make('admin/dashboard'));
+        $this->render(View::make('admin/dashboard', [], 'admin'));
     }
 }
