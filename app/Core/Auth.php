@@ -21,7 +21,8 @@ class Auth
     public static function login(User $user): void
     {
         $_SESSION['user_id'] = $user->id;
-        $_SESSION['user_role'] = $user->role;
+        $_SESSION['permissions'] = $user->getPermissions();
+        $_SESSION['is_admin'] = $user->hasRole('admin');
 
         $user->update(['last_login' => date('Y-m-d H:i:s')]);
     }
@@ -33,7 +34,7 @@ class Auth
 
     public static function isAdmin(): bool
     {
-        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+        return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     }
 
     public static function logout(): void

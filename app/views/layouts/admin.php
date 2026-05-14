@@ -5,8 +5,8 @@ use Flex\Core\Vite;
 use Flex\Core\Routing\View;
 
 $currentUser = Auth::user();
-$sidebarOpen = $_SESSION['sidebar_open'] ?? true;
-$darkMode = $_SESSION['dark_mode'] ?? false;
+$sidebarOpen = $currentUser->options['sidebar_open'] ?? $_SESSION['sidebar_open'] ?? true;
+$darkMode = ($currentUser->options['theme'] ?? null) === 'dark' ?? $_SESSION['dark_mode'] ?? false;
 ?>
 
 <!DOCTYPE html>

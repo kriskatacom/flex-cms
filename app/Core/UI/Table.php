@@ -164,4 +164,22 @@ class Table
         </a>
         <?php
     }
+
+    public static function tabs(array $tabs, string $activeSlug): void
+    {
+        ?>
+        <div class="border-b border-slate-200 dark:border-slate-700 mb-6">
+            <nav class="flex space-x-8" aria-label="Tabs">
+                <?php foreach ($tabs as $slug => $label): ?>
+                    <a href="?tab=<?= $slug ?>" 
+                    class="py-4 px-1 border-b-2 font-medium text-sm transition-colors <?= $activeSlug === $slug 
+                            ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' 
+                            : 'border-transparent hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300' ?>">
+                        <?= $label ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+        </div>
+        <?php
+    }
 }
