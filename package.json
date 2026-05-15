@@ -13,6 +13,7 @@
         "seed": "php vendor/bin/phinx seed:run -s UserSeeder"
     },
     "dependencies": {
+        "@alpinejs/collapse": "^3.15.12",
         "@fortawesome/fontawesome-free": "^7.2.0",
         "alpinejs": "^3.14.0",
         "axios": "^1.16.1",

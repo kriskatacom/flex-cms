@@ -47,10 +47,14 @@ class Router
 
         if (isset($this->routes[$method])) {
             foreach ($this->routes[$method] as $routePath => $routeData) {
-
                 $normRoutePath = '/' . trim($routePath, '/');
 
-                if ($path === $normRoutePath) {
+                $pattern = preg_replace('/\{[a-zA-Z0-0_]+\}/', '([^/]+)', $normRoutePath);
+                $pattern = "#^" . $pattern . "$#";
+
+                if (preg_match($pattern, $path, $matches)) {
+                    array_shift($matches);
+
                     $handler = $routeData['handler'];
                     $controllerClass = $handler[0];
                     $methodName = $handler[1];
@@ -58,7 +62,7 @@ class Router
                     if (class_exists($controllerClass)) {
                         $controller = new $controllerClass();
                         if (method_exists($controller, $methodName)) {
-                            call_user_func([$controller, $methodName]);
+                            call_user_func_array([$controller, $methodName], $matches);
                             return;
                         }
                     }

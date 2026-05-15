@@ -10,8 +10,15 @@ class CreateRbacTables extends AbstractMigration
         $roles->addColumn('name', 'string', ['limit' => 50])
             ->addColumn('slug', 'string', ['limit' => 50])
             ->addColumn('description', 'text', ['null' => true])
+            ->addColumn('priority', 'integer', ['default' => 0, 'null' => false])
+            ->addColumn('color', 'string', ['limit' => 7, 'default' => '#6366f1'])
+            ->addColumn('is_active', 'boolean', ['default' => true])
+            ->addColumn('is_default', 'boolean', ['default' => false])
+            ->addColumn('options', 'json', ['null' => true])
             ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('updated_at', 'timestamp', ['null' => true, 'update' => 'CURRENT_TIMESTAMP'])
             ->addIndex(['slug'], ['unique' => true])
+            ->addIndex(['priority'])
             ->create();
 
         $permissions = $this->table('permissions');
