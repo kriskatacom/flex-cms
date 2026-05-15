@@ -15,11 +15,10 @@ define('SIDEBAR_LINKS', [
         class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden">
     </div>
 
-    <aside id="main-sidebar" 
-        :class="{ 
+    <aside id="main-sidebar" :class="{ 
             'translate-x-0': isOpen, 
             '-translate-x-full': !isOpen,
-            'transition-transform duration-300': mounted 
+            'transition-transform duration-300': mounted // Анимацията се активира само след зареждане
         }"
         class="min-h-screen fixed inset-y-0 left-0 w-72 bg-black text-white z-50 transform shadow-2xl <?= !$is_open ? '-translate-x-full' : '' ?>">
 
@@ -44,11 +43,11 @@ define('SIDEBAR_LINKS', [
                     <?php $is_active = str_starts_with($current_admin_page, $link['url']); ?>
 
                     <a href="<?= $link['url'] ?>" @click.prevent="navigateTo('<?= $link['url'] ?>')"
-                        :class="linkClasses(<?= $is_active ? 'true' : 'false' ?>)">
+                        class="flex items-center gap-3 px-3 py-2 rounded-md font-semibold"
+                        :class="isOpen ? (<?= $is_active ? 'true' : 'false' ?> ? 'bg-primary text-white' : 'text-slate-400 hover:bg-primary hover:text-white') : ''">
+
                         <i class="fa-solid <?= $link['icon'] ?> text-xl w-6"></i>
-                        <span>
-                            <?= $link['label'] ?>
-                        </span>
+                        <span><?= $link['label'] ?></span>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -57,7 +56,8 @@ define('SIDEBAR_LINKS', [
 
             <div class="p-2">
                 <form action="/logout" method="GET">
-                    <button type="submit" :class="logoutClasses()">
+                    <button type="submit"
+                        class="w-full flex items-center gap-3 font-semibold px-3 py-2 text-red-500 hover:bg-red-500 hover:text-white rounded-md transition-all group">
                         <i class="fa-solid fa-power-off w-6 group-hover:scale-110 transition-transform"></i>
                         <span class="font-medium">Изход</span>
                     </button>

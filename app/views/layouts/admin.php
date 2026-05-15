@@ -9,18 +9,43 @@ $sidebarOpen = $currentUser->options['sidebar_open'] ?? $_SESSION['sidebar_open'
 $darkMode = ($currentUser->options['theme'] ?? null) === 'dark' ?? $_SESSION['dark_mode'] ?? false;
 ?>
 
-<!DOCTYPE html>
-<html lang="bg" x-data="{ 
-        ...sidebar('admin-sidebar', <?= $sidebarOpen ? 'true' : 'false' ?>, <?= $darkMode ? 'true' : 'false' ?>),
-        mounted: false 
-    }" x-init="setTimeout(() => mounted = true, 100)" :class="{ 'dark': darkMode }">
+<html lang="bg" 
+      x-data="sidebar('admin-sidebar', <?= $sidebarOpen ? 'true' : 'false' ?>, <?= $darkMode ? 'true' : 'false' ?>)" 
+      :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= $title ?? 'Администрация | Flex CMS'; ?>
-    </title>
+
+    <title><?= $title ?></title>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        html.dark {
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
+
+        body {
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+
+    <script>
+        (function () {
+            const isDark = <?= $darkMode ? 'true' : 'false' ?>;
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
     <?= Vite::use('admin') ?>
 </head>
 
@@ -30,11 +55,11 @@ $darkMode = ($currentUser->options['theme'] ?? null) === 'dark' ?? $_SESSION['da
 
         <?php View::component('sidebar', ['is_open' => $sidebarOpen]); ?>
 
-        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-900" x-data="{ mounted: false }"
-            x-init="setTimeout(() => mounted = true, 100)" :class="{ 
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-900 <?= $sidebarOpen ? 'lg:pl-72' : 'lg:pl-0' ?>"
+            x-data="{ mounted: false }" x-init="$nextTick(() => mounted = true)" :class="{ 
                 'lg:pl-72': isOpen, 
                 'lg:pl-0': !isOpen,
-                'transition-all duration-300': mounted 
+                'duration-300': mounted 
             }">
 
             <header
@@ -50,7 +75,6 @@ $darkMode = ($currentUser->options['theme'] ?? null) === 'dark' ?? $_SESSION['da
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <!-- Твоят нов динамичен бутон (ако съществува за текущата страница) -->
                     <?php if (isset($primaryButton)): ?>
                         <a href="<?= $primaryButton['url'] ?>"
                             class="hidden md:inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-all mr-4">
